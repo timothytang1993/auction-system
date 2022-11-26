@@ -15,9 +15,10 @@ function BidItem({ data }: any) {
       ),
     }).then((res) => {
       if (res.data.code === "S000") {
+        alert("success to bid");
         console.log("success order bid");
-        window.location.reload();
       } else {
+        alert("fail to bid");
         console.log("fail order bid");
         navigate("/error");
       }
