@@ -13,8 +13,7 @@ function App() {
         <Route path="login" element={<LoginPage />} />
         <Route
           path="bid"
-          element={<Bid />}
-          // element={storage.getItem("token") ? <Bid /> : <Error />}
+          element={storage.getItem("token") ? <Bid /> : <Error />}
         />
       </Routes>
     </div>

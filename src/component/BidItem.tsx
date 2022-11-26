@@ -1,46 +1,50 @@
 import AxiosPost from "../tool/AxiosTool";
+import { BidAPIUrl } from "../config";
+import storage from "local-storage-fallback";
+import { useNavigate } from "react-router-dom";
 
 function BidItem({ data }: any) {
+  const navigate = useNavigate();
   function handleClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     const productId = (e.target as HTMLButtonElement).id;
-    console.log(productId);
-    AxiosPost(BackEndUrl(), {
-      token:
-        "eyJhbGciOiJSUzI1NiIsImtpZCI6IjcxM2ZkNjhjOTY2ZTI5MzgwOTgxZWRjMDE2NGEyZjZjMDZjNTcwMmEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNDMyMTQ1NDQ0MDAzLWN2MmR0OG9rY2lxbjNnamN1bzhkbDViaDBvZ2s0Z3QzLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNDMyMTQ1NDQ0MDAzLWN2MmR0OG9rY2lxbjNnamN1bzhkbDViaDBvZ2s0Z3QzLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTE3NzY1NTA3NzkwNjg2NjcyNzgzIiwiZW1haWwiOiJ0aW0xOTkzMjAwMkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6IlB5czdMcVV2WXptbDdlOGpXWkhQYVEiLCJuYW1lIjoi5a6J5bCRIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FMbTV3dTNQcHVSTHEtUVh6d2t3ckNKQU5HbTdLYjJJT04xUHFLZmVvb1N4PXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IuWwkSIsImZhbWlseV9uYW1lIjoi5a6JIiwibG9jYWxlIjoiemgtVFciLCJpYXQiOjE2NjgzNTQ1NTcsImV4cCI6MTY2ODM1ODE1NywianRpIjoiOTcwYWRkMDliMTVlYzFlYmRkM2JjYWFkYTdlYzM2YjJjMTMzZTZjYyJ9.qOdAqkJXqax6tidiyt03JHKjLwXmeG0EW281hECWYJStg8naLawPVzn4jVsAwRvhzsaBV2_8NAdfzqEr2kg3UaH7sObHAMkbvd0PyvbPc-NURW9P9Tgt2gWXvxq9vf4ePYMimMvOeLJBEvItIzc-E8pjJ6w8m1xaErScthJZ0tUQxk5hWuukgbEP1fqJfQ6tX8Dugaim_ZK6KOdchsqXE-kuZZguJDR6sjrNW1sikwzXp9gavOqdxqQCJJlQ84wvIfBgl-44x9S_0Eezp54HM-LZOgFPPj6iyj6Ns49LJmkqYO604Hh4JRb-6jDfow5gzl2aVyq9Wc3wMkLGy-QmAw",
-      productId: productId,
-      bidPrice: (
-        document.getElementById(`bid-${productId}`) as HTMLInputElement
-      ).value,
+    AxiosPost(BidAPIUrl(), {
+      token: storage.getItem("token"),
+      productId: parseInt(productId),
+      bidPrice: parseFloat(
+        (document.getElementById(`bid-${productId}`) as HTMLInputElement).value
+      ),
     }).then((res) => {
       if (res.data.code === "S000") {
         console.log("success order bid");
-        // navigate("/bid");
+        window.location.reload();
       } else {
         console.log("fail order bid");
-        // navigate("/error");
+        navigate("/error");
       }
     });
-    console.log(
-      "this is:" +
-        (document.getElementById(`bid-${productId}`) as HTMLInputElement).value
-    );
   }
 
   return (
     <tr>
       <td>{data.id}</td>
-      <td>{data.name}</td>
+      <td>{data.categoryFk.name}</td>
       <td>
-        <img src={data.imagePath} alt="" />
+        <img src={data.image} alt="" width="200" height="200" />
       </td>
-      <td>HKD {data.bidPrice}</td>
+      <td>{data.productName}</td>
+      <td>{data.description}</td>
+      <td>{data.deadline}</td>
+      <td id={"product-" + data.id + "-last-price"}>
+        {data.lastPrice ? "HKD " + data.lastPrice : "No One Bid Now"}
+      </td>
       <td>
+        HKD
         <input
           id={`bid-${data.id}`}
           type="number"
-          min="0.1"
-          step="0.1"
-          defaultValue={data.bidPrice}
+          min="0.01"
+          step="0.01"
+          defaultValue={data.deadline}
         />
       </td>
       <td>
@@ -58,6 +62,3 @@ function BidItem({ data }: any) {
 }
 
 export default BidItem;
-function BackEndUrl(): string {
-  throw new Error("Function not implemented.");
-}

@@ -6,4 +6,12 @@ function BackEndUrl() {
   return "http://localhost:8888";
 }
 
-export { GoogleClientId };
+function BidAPIUrl() {
+  return BackEndUrl() + "/api/product/bid";
+}
+
+function ProductsAPIUrl() {
+  return BackEndUrl() + "/api/product/list";
+}
+
+export { GoogleClientId, BackEndUrl, BidAPIUrl, ProductsAPIUrl };
