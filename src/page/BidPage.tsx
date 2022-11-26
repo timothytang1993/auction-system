@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import BidItem from "../component/BidItem";
 import LogoutButton from "../component/LogoutButton";
 import { AxiosGet } from "../tool/AxiosTool";
-import { ProductsAPIUrl } from "../config";
+import { ProductsAPIUrl, WebSocketUrl, ProductWebSocketUrn } from "../config";
+import { over } from "stompjs";
+import SockJS from "sockjs-client";
 
 interface CategoryFk {
   id: number;
@@ -38,6 +40,21 @@ function Bid() {
     return <>Still loading...</>;
   }
 
+  const socket = new SockJS(WebSocketUrl());
+  const stompClient = over(socket);
+  stompClient.connect({}, function (frame) {
+    console.log("Connected: " + frame);
+    stompClient.subscribe(ProductWebSocketUrn(), function (data) {
+      let feedback = JSON.parse(data.body);
+      if (feedback["code"] == "S000") {
+        (
+          document.getElementById(
+            `product-${feedback["id"]}-last-price`
+          ) as HTMLDivElement
+        ).innerHTML = "HKD " + feedback["lastPrice"];
+      }
+    });
+  });
   return (
     <div className="Bid">
       {storage.getItem("name") && <div>{storage.getItem("name")}</div>}

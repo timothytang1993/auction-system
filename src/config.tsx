@@ -14,4 +14,19 @@ function ProductsAPIUrl() {
   return BackEndUrl() + "/api/product/list";
 }
 
-export { GoogleClientId, BackEndUrl, BidAPIUrl, ProductsAPIUrl };
+function WebSocketUrl() {
+  return BackEndUrl() + "/api/web-socket";
+}
+
+function ProductWebSocketUrn() {
+  return "/product-last-price";
+}
+
+export {
+  GoogleClientId,
+  BackEndUrl,
+  BidAPIUrl,
+  ProductsAPIUrl,
+  WebSocketUrl,
+  ProductWebSocketUrn,
+};
