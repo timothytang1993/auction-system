@@ -2,7 +2,7 @@
   "name": "bidding-system",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://timothytang1993.github.io/auction-system",
+  "homepage": "https://timothytang1993.github.io/auction-system/assets",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
