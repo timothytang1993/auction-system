@@ -9,7 +9,7 @@ import { hotjar } from "react-hotjar";
 
 function App() {
   useEffect(() => {
-    hotjar.initialize(3181440, 6);
+    hotjar.initialize(3268383, 6);
   });
 
   // Identify the user
