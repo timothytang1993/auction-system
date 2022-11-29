@@ -4,8 +4,28 @@ import Bid from "./page/BidPage";
 import Error from "./page/ErrorPage";
 import LoginPage from "./page/LoginPage";
 import storage from "local-storage-fallback";
+import { useEffect } from "react";
+import { hotjar } from "react-hotjar";
 
 function App() {
+  useEffect(() => {
+    hotjar.initialize(3181440, 6);
+  });
+
+  // Identify the user
+  hotjar.identify("USER_ID", { userProperty: "value" });
+
+  // Add an event
+  hotjar.event("button-click");
+
+  // Update SPA state
+  hotjar.stateChange("/my/page");
+
+  // Check if Hotjar has been initialized before calling its methods
+  if (hotjar.initialized()) {
+    hotjar.identify("USER_ID", { userProperty: "value" });
+  }
+
   return (
     <div className="App">
       <Routes>
