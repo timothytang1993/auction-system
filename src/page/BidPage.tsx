@@ -6,6 +6,8 @@ import { AxiosGet } from "../tool/AxiosTool";
 import { ProductsAPIUrl, WebSocketUrl, ProductWebSocketUrn } from "../config";
 import { over } from "stompjs";
 import SockJS from "sockjs-client";
+import TableItem from "./BidTable";
+import BidTable from "./BidTable";
 
 interface CategoryFk {
   id: number;
@@ -47,11 +49,19 @@ function Bid() {
     stompClient.subscribe(ProductWebSocketUrn(), function (data) {
       let feedback = JSON.parse(data.body);
       if (feedback["code"] == "S000") {
-        (
-          document.getElementById(
-            `product-${feedback["id"]}-last-price`
-          ) as HTMLDivElement
-        ).innerHTML = "HKD " + feedback["lastPrice"];
+        let id: number = feedback["id"] - 1;
+        console.log(
+          document
+            .querySelectorAll(".MuiDataGrid-row")
+            [id].getElementsByClassName(".MuiDataGrid-cell")
+        );
+        // (
+        //   document
+        //     .querySelectorAll(".MuiDataGrid-row")
+        //     [id].getElementsByTagName("data-field") as HTMLCollectionOf<Element>
+        // ).innerHTML = feedback["lastPrice"];
+        //   document.querySelectorAll(".MuiDataGrid-row")[{feedback["id"]}]
+        // .innerHTML = "HKD " + feedback["lastPrice"];
       }
     });
   });
@@ -59,7 +69,8 @@ function Bid() {
     <div className="Bid">
       {storage.getItem("name") && <div>{storage.getItem("name")}</div>}
       <LogoutButton></LogoutButton>
-      <table>
+      <BidTable data={data}></BidTable>
+      {/* <table>
         <tbody>
           <tr>
             <td>id</td>
@@ -76,7 +87,7 @@ function Bid() {
             <BidItem key={d.id} data={d} />
           ))}
         </tbody>
-      </table>
+      </table> */}
     </div>
   );
 }
