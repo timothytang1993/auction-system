@@ -19,7 +19,7 @@ function Error() {
     gapi.load("client:auth2", start);
   });
 
-  return <div className="Error">Error. Please try again later. </div>;
+  return <div className="Error">Error. Please try again later. Thank You</div>;
 }
 
 export default Error;
