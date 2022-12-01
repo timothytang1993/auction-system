@@ -6,7 +6,7 @@ import { AxiosGet } from "../tool/AxiosTool";
 import { ProductsAPIUrl, WebSocketUrl, ProductWebSocketUrn } from "../config";
 import { over } from "stompjs";
 import SockJS from "sockjs-client";
-import BidTable from "./BidTable";
+import BidTable from "../component/BidTable";
 
 interface CategoryFk {
   id: number;

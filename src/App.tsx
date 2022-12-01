@@ -6,7 +6,7 @@ import LoginPage from "./page/LoginPage";
 import storage from "local-storage-fallback";
 import { useEffect } from "react";
 import { hotjar } from "react-hotjar";
-import TablePage from "./page/BidTable";
+import TablePage from "./component/BidTable";
 
 function App() {
   useEffect(() => {
@@ -30,7 +30,6 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="table" element={<TablePage />} />
         <Route path="*" element={<Error />} />
         <Route path="login" element={<LoginPage />} />
         <Route

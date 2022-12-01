@@ -24,7 +24,14 @@ function BidTable({ data }: any) {
       valueGetter: (params: GridValueGetterParams) =>
         params.row.categoryFk.name,
     },
-    { field: "image", headerName: "Image", width: 130 },
+    {
+      field: "image",
+      headerName: "Image",
+      width: 130,
+      renderCell: (params: GridRenderEditCellParams) => (
+        <img src={params.row.image} alt="" width="80" height="80" />
+      ),
+    },
     { field: "productName", headerName: "Product Name", width: 130 },
     { field: "description", headerName: "Description", width: 130 },
     { field: "deadline", headerName: "Deadline", width: 180 },
@@ -107,6 +114,7 @@ function BidTable({ data }: any) {
         pageSize={5}
         rowsPerPageOptions={[5, 10]}
         checkboxSelection
+        rowHeight={100}
       />
     </div>
   );
